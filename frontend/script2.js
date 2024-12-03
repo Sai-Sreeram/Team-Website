@@ -324,7 +324,34 @@ loginBtn.addEventListener('click', () => {
     loginFormContainer.classList.toggle('hidden');
 });
 
+// Handle Login Form Submission
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+
+  try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+          alert(data.message); // "Login successful"
+          localStorage.setItem('token', data.token); // Store the token in localStorage
+          window.location.href = 'index (3).html'; // Redirect to index (3).html
+      } else {
+          alert(data.message); // Display error message (e.g., "User not found")
+      }
+  } catch (error) {
+      console.error('Login Error:', error);
+      alert('An error occurred during login.');
+  }
+});
 
 
 // Fetch and Display Trailers
