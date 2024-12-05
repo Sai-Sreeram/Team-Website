@@ -1,9 +1,3 @@
-// Backend Base URL (Dynamic: Adjust for local and deployed environments)
-const backendBaseUrl =
-    window.location.hostname === 'localhost'
-        ? 'http://localhost:5000' // Localhost for development
-        : 'https://team-website-1.onrender.com'; // Deployed backend URL
-
 // api key  from TMDB
 
 const api = "api_key=0d7fcb538472b4a248392fdaf9ae8532";
@@ -312,37 +306,7 @@ loginBtn.addEventListener('click', () => {
     loginFormContainer.classList.toggle('hidden');
 });
 
-// Handle Login Form Submission
-document.getElementById('login-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
 
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.message); // "Login successful"
-        localStorage.setItem('token', data.token); // Store the token in localStorage
-        window.location.href = 'index (3).html'; // Redirect to the main page
-      } else if (response.status === 404) {
-        alert(data.message); // "User not found. Redirecting to signup."
-        showSignupForm(email, password); // Call the signup form with pre-filled details
-      } else {
-        alert(data.message); // Display other error messages
-      }
-  } catch (error) {
-      console.error('Login Error:', error);
-      alert('An error occurred during login.');
-  }
-});
 
 
 // Fetch and Display Trailers
@@ -370,43 +334,25 @@ async function fetchTrailers() {
 // Call fetchTrailers when the page loads
 window.onload = fetchTrailers;
 
-<<<<<<< HEAD
-// Handle Login Form Submission
 document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-=======
-/*document.getElementById('login-form').addEventListener('submit', async (e) => {
   e.preventDefault();
->>>>>>> af21bea (Initial commit)
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-    try {
-        const response = await fetch(`${backendBaseUrl}/api/auth/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
+  try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-<<<<<<< HEAD
-        if (response.ok) {
-            localStorage.setItem('token', data.token); // Save JWT in localStorage
-            window.location.href = '/index.html'; // Redirect on successful login
-        } else if (response.status === 404) {
-            alert('User not found. Please register.');
-        } else {
-            alert(data.message); // Display error message
-        }
-    } catch (error) {
-        console.error('Login Error:', error);
-        alert('An error occurred during login.');
-=======
       if (response.ok) {
           alert(data.message);
           localStorage.setItem('token', data.token);
+          window.location.href = 'index (3).html';
       } else if (response.status === 404) {
           alert(data.message); // "User not found. Redirecting to signup."
           showSignupForm(email, password); // Redirect to signup form
@@ -417,7 +363,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       console.error('Login Error:', error);
       alert('An error occurred during login.');
   }
-});*/
+});
 
 function showSignupForm(email = '', password = '') {
   const signupFormContainer = document.getElementById('signup-form-container');
@@ -469,38 +415,8 @@ closeLoginBtn.addEventListener('click', () => {
 window.addEventListener('click', (e) => {
     if (e.target === loginFormContainer) {
         loginFormContainer.classList.add('hidden');
->>>>>>> af21bea (Initial commit)
     }
 });
-
-// Handle Signup Form Submission
-document.getElementById('signup-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const signupEmail = document.getElementById('signup-email').value;
-    const signupPassword = document.getElementById('signup-password').value;
-
-    try {
-        const response = await fetch(`${backendBaseUrl}/api/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: signupEmail, password: signupPassword }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Registration successful! Please log in.');
-            document.getElementById('signup-form-container').classList.add('hidden');
-        } else {
-            alert(data.message); // Display error message
-        }
-    } catch (error) {
-        console.error('Signup Error:', error);
-        alert('An error occurred during signup.');
-    }
-});
-
 
 // Close Signup Form
 const signupFormContainer = document.getElementById('signup-form-container');
@@ -516,5 +432,14 @@ window.addEventListener('click', (e) => {
     }
 });
 
-
-console.log("Resolved change");
+// Language Selection
+const languageSelect = document.getElementById('language-select');
+languageSelect.addEventListener('change', (e) => {
+    const language = e.target.value;
+    if (language === 'es') {
+        alert('¡Idioma cambiado a Español! (Spanish selected)');
+        // Further translations can be added here.
+    } else {
+        alert('Language changed to English');
+    }
+});
